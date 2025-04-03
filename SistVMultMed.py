@@ -134,7 +134,7 @@ def main():
 
                 for i in range(0,nm):
                     nombre_medicamentos = input("Ingrese el nombre del medicamento: ")
-                    dosis =int(input("Ingrese la dosis: "))
+                    dosis =solicitarNumero("Ingrese la dosis: ")
                     medicamento = Medicamento()
                     medicamento.asignarNombre(nombre_medicamentos)
                     medicamento.asignarDosis(dosis)
@@ -170,7 +170,7 @@ def main():
 
 
         elif menu==4: # Ver medicamentos que se están administrando
-            q = int(input("Ingrese la historia clínica de la mascota: "))
+            q = solicitarNumero("Ingrese la historia clínica de la mascota: ")
             medicamento = servicio_hospitalario.verMedicamento(q) 
             if medicamento != None: 
                 print("Los medicamentos suministrados son: ")
@@ -181,7 +181,7 @@ def main():
 
         
         elif menu == 5: # Eliminar mascota
-            q = int(input("Ingrese la historia clínica de la mascota: "))
+            q = solicitarNumero("Ingrese la historia clínica de la mascota: ")
             resultado_operacion = servicio_hospitalario.eliminarMascota(q) 
             if resultado_operacion == True:
                 print("Mascota eliminada del sistema con exito")

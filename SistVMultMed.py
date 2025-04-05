@@ -122,7 +122,8 @@ def main():
                        \n3- Ver número de mascotas en el servicio 
                        \n4- Ver medicamentos que se están administrando
                        \n5- Eliminar mascota 
-                       \n6- Salir 
+                       \n6- Eliminar medicamento de una mascota
+                       \n7- Salir 
                        \nUsted ingresó la opción: ''' ))
         
         if menu==1: # Ingresar una mascota 
@@ -143,9 +144,13 @@ def main():
                 
                 nm=solicitarNumero("Ingrese cantidad de medicamentos: ")
                 lista_med=[]
+                nombres_meds=set()
 
                 for i in range(0,nm):
                     nombre_medicamentos = input("Ingrese el nombre del medicamento: ")
+                    if nombre_medicamentos in nombres_meds:
+                        print("Este medicamento ya ha sido ingresado.")
+                        
                     dosis =solicitarNumero("Ingrese la dosis: ")
                     medicamento = Medicamento()
                     medicamento.asignarNombre(nombre_medicamentos)
@@ -202,6 +207,17 @@ def main():
 
 
         elif menu==6:
+            historia = solicitarNumero("Ingrese la historia clínica de la mascota: ")
+            tipo = input("Ingrese el tipo de mascota (felino o canino): ")
+            nombre_med = input("Ingrese el nombre del medicamento a eliminar: ")
+            mascota = servicio_hospitalario.verMedicamento(historia, tipo)
+            if mascota:
+                mascota.eliminarMedicamento(nombre_med)
+                print("Medicamento eliminado")
+            else:
+                print("Mascota no encontrada")
+
+        elif menu==7:
             print("Usted ha salido del sistema de servicio de hospitalización...")
             break
         

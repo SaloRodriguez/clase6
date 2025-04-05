@@ -49,9 +49,12 @@ class Mascota:
     def asignarLista_Medicamentos(self,n):
         self.__lista_medicamentos = n 
     
+    def eliminarMedicamento(self, nombre_med):
+        self.__lista_medicamentos = [med for med in self.__lista_medicamentos if med.verNombre() != nombre_med]
+
 class sistemaV:
     def __init__(self):
-        self.__lista_mascotas = []
+        self.__lista_mascotas = {"caninos": {}, "felinos": {}}
     
     def verificarExiste(self,historia):
         for m in self.__lista_mascotas:

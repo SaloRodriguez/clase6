@@ -69,10 +69,11 @@ class sistemaV:
         return len(self.__lista_mascotas) 
     
     def ingresarMascota(self,mascota):
+        tipo = mascota.verTipo()
         if self.verNumeroMascotas() >= 10:
             print("No hay espacio disponible para nuevas mascotas.")
             return False
-        self.__lista_mascotas.append(mascota)
+        self.__mascotas[tipo][mascota.verHistoria()] = mascota
         return True 
    
     def verFechaIngreso(self,historia):
@@ -111,6 +112,14 @@ def solicitarNumero(mensaje):
 def validar_fecha(fecha):
     return bool(re.match(r"^\d{2}/\d{2}/\d{4}$", fecha))
 
+def obtener_tipo():
+    tipos_validos = {'canino': 'caninos', 'felino': 'felinos'}
+    tipo_ingresado = input("Ingrese el tipo de mascota (felino o canino): ").lower().strip()
+    if tipo_ingresado not in tipos_validos:
+        print("Tipo de mascota no válido.")
+        return None
+    return tipos_validos[tipo_ingresado]
+
 
 def main():
     servicio_hospitalario = sistemaV()
@@ -135,12 +144,15 @@ def main():
             #   verificacion=servicio_hospitalario.verDatosPaciente(historia)
             if servicio_hospitalario.verificarExiste(historia) == False:
                 nombre=input("Ingrese el nombre de la mascota: ")
-                tipo=input("Ingrese el tipo de mascota (felino o canino): ")
+                tipo= obtener_tipo()
+                if not tipo:
+                    continue
                 peso=solicitarNumero("Ingrese el peso de la mascota: ")
                 fecha=input("Ingrese la fecha de ingreso (dia/mes/año): ")
                 
                 if not validar_fecha(fecha):
                     print("Formato de fecha inválido. Use dd/mm/aaaa.")
+                    continue
                 
                 nm=solicitarNumero("Ingrese cantidad de medicamentos: ")
                 lista_med=[]
@@ -150,7 +162,9 @@ def main():
                     nombre_medicamentos = input("Ingrese el nombre del medicamento: ")
                     if nombre_medicamentos in nombres_meds:
                         print("Este medicamento ya ha sido ingresado.")
-                        
+                        continue
+                    
+                    nombres_meds.add(nombre_med)
                     dosis =solicitarNumero("Ingrese la dosis: ")
                     medicamento = Medicamento()
                     medicamento.asignarNombre(nombre_medicamentos)
@@ -208,7 +222,9 @@ def main():
 
         elif menu==6:
             historia = solicitarNumero("Ingrese la historia clínica de la mascota: ")
-            tipo = input("Ingrese el tipo de mascota (felino o canino): ")
+            tipo = obtener_tipo()
+            if not tipo:
+                continue            
             nombre_med = input("Ingrese el nombre del medicamento a eliminar: ")
             mascota = servicio_hospitalario.verMedicamento(historia, tipo)
             if mascota:

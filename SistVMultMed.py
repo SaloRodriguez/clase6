@@ -1,3 +1,5 @@
+import re
+
 class Medicamento:
     def __init__(self):
         self.__nombre = "" 
@@ -106,6 +108,9 @@ def solicitarNumero(mensaje):
         except ValueError:
             print("Error: Ingrese un número válido.")
 
+def validar_fecha(fecha):
+    return bool(re.match(r"^\d{2}/\d{2}/\d{4}$", fecha))
+
 
 def main():
     servicio_hospitalario = sistemaV()
@@ -130,9 +135,13 @@ def main():
             if servicio_hospitalario.verificarExiste(historia) == False:
                 nombre=input("Ingrese el nombre de la mascota: ")
                 tipo=input("Ingrese el tipo de mascota (felino o canino): ")
-                peso=int(input("Ingrese el peso de la mascota: "))
+                peso=solicitarNumero("Ingrese el peso de la mascota: ")
                 fecha=input("Ingrese la fecha de ingreso (dia/mes/año): ")
-                nm=int(input("Ingrese cantidad de medicamentos: "))
+                
+                if not validar_fecha(fecha):
+                    print("Formato de fecha inválido. Use dd/mm/aaaa.")
+                
+                nm=solicitarNumero("Ingrese cantidad de medicamentos: ")
                 lista_med=[]
 
                 for i in range(0,nm):
